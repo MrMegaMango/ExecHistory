@@ -2,7 +2,7 @@ import os
 import re
 import json
 
-execution_path = 'executions2/executions2/2'
+execution_path = 'executions2/executions2'
 
 app_path = 'app2.json'
 with open(app_path) as f:
@@ -40,10 +40,26 @@ def get_input_and_outputs(execution_folder, app_json):
 
     return inputs, outputs
 
+result = ""
+
+for folder in os.listdir(execution_path):
+    inputs, outputs = get_input_and_outputs(execution_path+"/"+folder, app_json)
+    result += "{EXECUTION ID}"
+    result += "<br>input: "+str(inputs)+"<br> ---- <br> output: "+ str(outputs) + "<br><br>"
 
 
-inputs, outputs = get_input_and_outputs(execution_path, app_json)
+# inputs, outputs = get_input_and_outputs(execution_path, app_json)
+# result = "input: "+str(inputs)+"<br> ---- <br> output: "+ str(outputs)
+# print(inputs)
+# print('----')
+# print(outputs)
 
-print(inputs)
-print('----')
-print(outputs)
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/') 
+def showHistory(): 
+    return result
+
+if __name__ == '__main__':
+    app.run()
