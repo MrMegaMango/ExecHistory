@@ -78,12 +78,12 @@ print("HTML file created successfully.")
 
 
 
-from flask import Flask
-app = Flask(__name__)
+# from flask import Flask
+# app = Flask(__name__)
 
-@app.route('/') 
-def showHistory(): 
-    return result
+# @app.route('/') 
+# def showHistory(): 
+#     return result
 
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+#     app.run()
