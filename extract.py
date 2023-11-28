@@ -2,9 +2,9 @@ import os
 import re
 import json
 
-execution_path = 'executions2/executions2'
+execution_path = 's3data/executions2/executions2'
 
-app_path = 'app2.json'
+app_path = 's3data/app2.json'
 with open(app_path) as f:
     app_json = json.load(f)
 
@@ -53,6 +53,30 @@ for folder in os.listdir(execution_path):
 # print(inputs)
 # print('----')
 # print(outputs)
+
+html_content = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>app execution history</title>
+</head>
+<body>
+
+<h1>app execution history</h1>
+<p>"""+result+"""</p>
+
+</body>
+</html>
+"""
+
+# Writing the HTML contents to a file
+with open('index.html', 'w') as file:
+    file.write(html_content)
+
+print("HTML file created successfully.")
+
+
+
 
 from flask import Flask
 app = Flask(__name__)
