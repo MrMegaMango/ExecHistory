@@ -16,7 +16,7 @@ export default function ExecutionHistory() {
   const [executions, setExecutions] = useState<Execution[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/executions')
+    fetch('api/execution')
       .then(response => response.json())
       .then(data => {
         // Convert IDs to numbers for sorting and then convert back to strings
