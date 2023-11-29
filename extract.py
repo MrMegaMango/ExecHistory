@@ -1,3 +1,10 @@
+import sys
+import subprocess
+
+print("Python version:")
+print(sys.version)
+print("\nInstalled packages:")
+subprocess.call([sys.executable, "-m", "pip", "freeze"])
 import os
 import json
 
