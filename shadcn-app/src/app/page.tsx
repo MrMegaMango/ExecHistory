@@ -18,7 +18,10 @@ export default function ExecutionHistory() {
   useEffect(() => {
     fetch('http://localhost:5000/api/executions')
       .then(response => response.json())
-      .then(data => setExecutions(data));
+      .then(data => {
+        // Convert IDs to numbers for sorting and then convert back to strings
+      const sortedData = data.sort((a: Execution, b: Execution) => parseInt(a.id) - parseInt(b.id));
+      setExecutions(data)});
   }, []);
 
   const renderObjectAsList = (obj: { [key: string]: any }) => (
