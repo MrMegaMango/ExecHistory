@@ -65,7 +65,7 @@ const processExecutions = (executionPath: string) => {
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query; // Extract the dynamic ID from the URL
-  const executionPath = path.join(process.cwd(), '../../../s3data/executions/executions'+id);
+  const executionPath = path.join(process.cwd(), '/public/s3data/executions/executions'+id);
   const executionData = processExecutions(executionPath);
 
   if (!executionData) {
