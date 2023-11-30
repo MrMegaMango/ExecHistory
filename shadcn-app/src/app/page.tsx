@@ -14,9 +14,9 @@ interface Execution {
 }
 export default function ExecutionHistory() {
   const [executions, setExecutions] = useState<Execution[]>([]);
-
+  
   useEffect(() => {
-    fetch('api/execution')
+    fetch('api/executions/1')
       .then(response => response.json())
       .then(data => {
         // Convert IDs to numbers for sorting and then convert back to strings
@@ -51,3 +51,4 @@ export default function ExecutionHistory() {
     </div>
   );
 }
+
