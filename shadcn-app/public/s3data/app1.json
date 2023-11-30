@@ -1,0 +1,547 @@
+{
+  "app_id": "cloyopiah0001qofm1kvr5dax",
+  "stage": "Success",
+  "step_idx": 2,
+  "workflow_arn": "arn:aws:states:eu-west-2:224515216882:stateMachine:PersonalizedGiftSuggestionandPurchasingLinks-cloyckh1s0001l708rzc4ybui",
+  "problem": "I want an app that suggests gift ideas for someone based on what I know about them. I would then like each gift to have a link to where I can purchase an example of the item.\n\nFor example I could get someone a massage as a gift and the link for that could be https://www.masaj.me/",
+  "created_files": [],
+  "workflow_description_component": {
+    "state": "completed",
+    "error_message": null,
+    "workflow_description": {
+      "problem": "I want an app that suggests gift ideas for someone based on what I know about them. I would then like each gift to have a link to where I can purchase an example of the item.\n\nFor example I could get someone a massage as a gift and the link for that could be https://www.masaj.me/",
+      "name": "Personalized Gift Suggestion and Purchasing Links",
+      "steps": [
+        {
+          "name": "Generate Gift Ideas",
+          "description": "Use a GPT-based AI API to generate gift ideas based on the details provided about the person.",
+          "apis": [
+            "GPT-based AI"
+          ]
+        },
+        {
+          "name": "Search for Gift Purchase Links",
+          "description": "For each generated gift idea, use the Google Search API to find a link where the gift can be purchased.",
+          "apis": [
+            "Google Search"
+          ]
+        }
+      ],
+      "inputs": [
+        {
+          "name": "person_details",
+          "jsonschema": {
+            "type": "string",
+            "format": "text",
+            "description": "Information about the person for whom the gift is for."
+          },
+          "example": "My friend loves yoga and meditation, and enjoys reading about health and wellness."
+        }
+      ],
+      "outputs": [
+        {
+          "name": "gift_ideas",
+          "jsonschema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "gift_idea": {
+                  "type": "string",
+                  "description": "The suggested gift idea."
+                },
+                "purchase_link": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "The link to where the gift can be purchased."
+                }
+              }
+            },
+            "description": "A list of gift ideas and their corresponding purchase links."
+          },
+          "example": [
+            {
+              "gift_idea": "A book about yoga and meditation",
+              "purchase_link": "https:\\/\\/www.amazon.com\\/yoga-meditation-book"
+            }
+          ]
+        }
+      ]
+    },
+    "messages": []
+  },
+  "dag_components": [
+    {
+      "step_idx": 0,
+      "workflow_dag": {
+        "step": {
+          "name": "Generate Gift Ideas",
+          "description": "Use a GPT-based AI API to generate gift ideas based on the details provided about the person.",
+          "apis": [
+            "GPT-based AI"
+          ]
+        },
+        "inputs": [
+          {
+            "name": "person_details",
+            "jsonschema": {
+              "type": "string",
+              "format": "text",
+              "description": "Information about the person for whom the gift is for."
+            },
+            "example": "My friend loves yoga and meditation, and enjoys reading about health and wellness."
+          }
+        ],
+        "nodes": [
+          {
+            "name": "prepare_person_details_for_gift_idea_generation",
+            "type": "custom_code",
+            "inputs": [
+              "person_details"
+            ],
+            "outputs": [
+              {
+                "name": "person_details_for_gift_idea_generation",
+                "jsonschema": {
+                  "type": "string",
+                  "format": "text",
+                  "description": "Person details prepared for gift idea generation"
+                },
+                "example": "My friend loves yoga and meditation, and enjoys reading about health and wellness."
+              }
+            ]
+          },
+          {
+            "name": "generate_gift_ideas",
+            "type": "api",
+            "inputs": [
+              "person_details_for_gift_idea_generation"
+            ],
+            "outputs": [
+              {
+                "name": "gift_ideas",
+                "jsonschema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "text"
+                  },
+                  "description": "Array of generated gift ideas"
+                },
+                "example": [
+                  "Yoga mat",
+                  "Meditation cushion",
+                  "Books on health and wellness"
+                ]
+              }
+            ],
+            "api": "GPT-based AI"
+          }
+        ],
+        "thinking_process": "1) We need to generate gift ideas based on the details provided about the person. The gift ideas should be in line with the person's interests and preferences as described in the `person_details` input. \n2) We can use the GPT-based AI API for this task. This API is capable of understanding and generating natural language, which makes it a good choice for generating personalized gift ideas. \n3) The input to the GPT-based AI API should be the `person_details` input. \n4) Since APIs always need to be preceded by a custom code node, we'll create a custom code node to transform the `person_details` input into the format required by the GPT-based AI API. \n5) The output of the GPT-based AI API will be the generated gift ideas. \n6) This output will then be transformed into the format required for the next step in the workflow using another custom code node. \n\nBased on this thinking process, we can create the following workflow DAG graph for the current step:"
+      },
+      "components": [
+        {
+          "node_idx": 0,
+          "custom_code": {
+            "inputs": [
+              {
+                "name": "person_details",
+                "jsonschema": {
+                  "type": "string",
+                  "format": "text",
+                  "description": "Information about the person for whom the gift is for."
+                },
+                "example": "My friend loves yoga and meditation, and enjoys reading about health and wellness."
+              }
+            ],
+            "outputs": [
+              {
+                "name": "person_details_for_gift_idea_generation",
+                "jsonschema": {
+                  "type": "string",
+                  "format": "text",
+                  "description": "Person details prepared for gift idea generation"
+                },
+                "example": "My friend loves yoga and meditation, and enjoys reading about health and wellness."
+              }
+            ],
+            "function_name": "prepare_person_details_for_gift_idea_generation",
+            "thinking_process": "1. The input to this function is the `person_details` string, which contains information about the person for whom the gift is for. This information could include the person's interests, hobbies, lifestyle, and preferences.\n2. The goal of this function is to prepare these details in a format that can be used as input to the GPT-based AI API for gift idea generation. Since the API expects a string input, we don't need to transform the input type.\n3. However, we may need to format the `person_details` string in a particular way to make it easier for the GPT-based AI to understand and generate relevant gift ideas. For instance, we might want to ensure that the string is well-structured, clear, and concise.\n4. Depending on the specific requirements of the AI API, we might need to include certain keywords or phrases in the `person_details` string. For example, we could start the string with a phrase like \"Generate gift ideas for a person who...\" to guide the AI's generation process.\n5. The function will return the formatted `person_details` string as output. This output will be used as input to the GPT-based AI API in the next step of the workflow.\n\nNow, let's write the python function to implement this step.",
+            "code": [
+              "\n\n\ndef prepare_person_details_for_gift_idea_generation(inputs):\n    # Format the person_details string\n    formatted_person_details = f\"Generate gift ideas for a person who: {inputs['person_details']}\"\n\n    # Prepare the output dictionary\n    outputs = {\"person_details_for_gift_idea_generation\": formatted_person_details}\n\n    return outputs\n\n"
+            ]
+          },
+          "state": "completed",
+          "error_message": null,
+          "messages": []
+        },
+        {
+          "node_idx": 1,
+          "api_gpt": {
+            "inputs": [
+              {
+                "name": "person_details_for_gift_idea_generation",
+                "jsonschema": {
+                  "type": "string",
+                  "format": "text",
+                  "description": "Person details prepared for gift idea generation"
+                },
+                "example": "My friend loves yoga and meditation, and enjoys reading about health and wellness."
+              }
+            ],
+            "outputs": [
+              {
+                "name": "gift_ideas",
+                "jsonschema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "text"
+                  },
+                  "description": "Array of generated gift ideas"
+                },
+                "example": [
+                  "Yoga mat",
+                  "Meditation cushion",
+                  "Books on health and wellness"
+                ]
+              }
+            ],
+            "prompt": "Based on the following description, generate a list of possible gift ideas:\n\n{format_instructions}\n\nPerson Details: {person_details_for_gift_idea_generation}.",
+            "thinking_process": "1) The GPT-based model should generate a list of gift ideas based on the details provided about the person.\n2) The prompt should instruct the model to generate a list of gifts that align with the person's interests and preferences as described in the `person_details_for_gift_idea_generation` input.\n3) The generated gift ideas will be in a text format and each gift idea will be a separate string in an array."
+          },
+          "state": "completed",
+          "api_inputs": null,
+          "error_message": null,
+          "messages": []
+        }
+      ],
+      "state": "completed",
+      "error_message": null,
+      "messages": []
+    },
+    {
+      "step_idx": 1,
+      "workflow_dag": {
+        "step": {
+          "name": "Search for Gift Purchase Links",
+          "description": "For each generated gift idea, use the Google Search API to find a link where the gift can be purchased.",
+          "apis": [
+            "Google Search"
+          ]
+        },
+        "inputs": [
+          {
+            "name": "person_details",
+            "jsonschema": {
+              "type": "string",
+              "format": "text",
+              "description": "Information about the person for whom the gift is for."
+            },
+            "example": "My friend loves yoga and meditation, and enjoys reading about health and wellness."
+          },
+          {
+            "name": "person_details_for_gift_idea_generation",
+            "jsonschema": {
+              "type": "string",
+              "format": "text",
+              "description": "Person details prepared for gift idea generation"
+            },
+            "example": "My friend loves yoga and meditation, and enjoys reading about health and wellness."
+          },
+          {
+            "name": "gift_ideas",
+            "jsonschema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "text"
+              },
+              "description": "Array of generated gift ideas"
+            },
+            "example": [
+              "Yoga mat",
+              "Meditation cushion",
+              "Books on health and wellness"
+            ]
+          }
+        ],
+        "nodes": [
+          {
+            "name": "generate_num_results",
+            "type": "custom_code",
+            "inputs": [],
+            "outputs": [
+              {
+                "name": "num_results",
+                "jsonschema": {
+                  "type": "number",
+                  "format": "integer",
+                  "description": "Maximum number of search results to return"
+                },
+                "example": 1
+              }
+            ]
+          },
+          {
+            "name": "search_for_purchase_links",
+            "type": "map",
+            "inputs": [
+              "gift_ideas",
+              "num_results"
+            ],
+            "outputs": [
+              {
+                "name": "search_results",
+                "jsonschema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "link": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "snippet": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "description": "Array of search results for each gift idea"
+                },
+                "example": [
+                  [
+                    {
+                      "link": "https://example.com/yoga-mat",
+                      "title": "Best Yoga Mat",
+                      "snippet": "This is the best yoga mat available."
+                    }
+                  ]
+                ]
+              }
+            ],
+            "task": {
+              "name": "google_search",
+              "type": "api",
+              "inputs": [
+                "query",
+                "num_results"
+              ],
+              "outputs": [
+                {
+                  "name": "results",
+                  "jsonschema": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "link": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "snippet": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "link": "https://example.com/yoga-mat",
+                      "title": "Best Yoga Mat",
+                      "snippet": "This is the best yoga mat available."
+                    }
+                  ]
+                }
+              ],
+              "api": "Google Search"
+            },
+            "task_inputs": {
+              "query": "gift_ideas",
+              "num_results": "num_results"
+            },
+            "task_outputs": {
+              "results": "search_results"
+            },
+            "task_thinking_process": "For each gift idea, use it as a query to search Google and obtain a link where the gift can be purchased."
+          },
+          {
+            "name": "prepare_output",
+            "type": "custom_code",
+            "inputs": [
+              "search_results"
+            ],
+            "outputs": [
+              {
+                "name": "gift_ideas",
+                "jsonschema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "gift_idea": {
+                        "type": "string",
+                        "description": "The suggested gift idea."
+                      },
+                      "purchase_link": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "The link to where the gift can be purchased."
+                      }
+                    }
+                  },
+                  "description": "A list of gift ideas and their corresponding purchase links."
+                },
+                "example": [
+                  {
+                    "gift_idea": "A book about yoga and meditation",
+                    "purchase_link": "https://www.amazon.com/yoga-meditation-book"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "thinking_process": "1) The goal of this step is to find purchase links for each generated gift idea. To do this, we'll need to use the Google Search API.\n2) The Google Search API requires a query as input, and returns an array of search results as output. In our case, the query would be each gift idea, and we would be interested in the first search result's link.\n3) Since the Google Search API only takes a single query as input, we'll need to create a map node to run the API for each gift idea. Each run of the API will produce a single search result, which we'll then extract the link from.\n4) The output of the map node will be an array of search results, one for each gift idea. We'll need to create a custom code node to transform this array into the format required for the output metadata of this step. This involves extracting the link from each search result and pairing it with the corresponding gift idea.\n\nBased on this thinking process, we can create the following workflow DAG graph for the current step:\n\nThis DAG represents a map node that runs the Google Search API for each gift idea, followed by a custom code node that transforms the array of search results into the format required for the output metadata of this step.\n...\n1) The error message indicates that there is a mismatch between the outputs of the map node and the task outputs. Specifically, the map node outputs are `['search_results']`, but the task outputs are `['search_result']`.\n2) The task outputs are specified in the `task_outputs` field of the map node, where the keys are the task node outputs and the values are the map node outputs. The error message suggests that the map node does not have all the required outputs of the task node, which is the Google Search API in this case.\n3) To fix the error, we need to ensure that the map node has all the required outputs of the task node. This can be done by adjusting the `task_outputs` field of the map node.\n4) The corrected `task_outputs` field should be `{'results': 'search_results'}`. This indicates that the `search_results` output of the map node corresponds to the `results` output of the task node.\n\nThe corrected workflow DAG would be:"
+      },
+      "components": [
+        {
+          "node_idx": 0,
+          "custom_code": {
+            "inputs": [],
+            "outputs": [
+              {
+                "name": "num_results",
+                "jsonschema": {
+                  "type": "number",
+                  "format": "integer",
+                  "description": "Maximum number of search results to return"
+                },
+                "example": 1
+              }
+            ],
+            "function_name": "generate_num_results",
+            "thinking_process": "1. Our task here is to generate the number of results we need from the Google Search API for each gift idea. As we are looking for a single purchase link for each gift idea, we need a single result from the search. Hence, we can directly return 1 as the number of results.\n2. We will create a dictionary with the key `num_results` and its value as 1.\n3. Return the prepared dictionary as the output of the function.\n\nNow, let's write the python function to implement this step.",
+            "code": [
+              "\n\ndef generate_num_results(inputs):\n    # We only need one result\n    num_results = 1\n\n    # Prepare the output dictionary\n    outputs = {\"num_results\": num_results}\n\n    return outputs\n\n"
+            ]
+          },
+          "state": "completed",
+          "error_message": null,
+          "messages": []
+        },
+        {
+          "node_idx": 1,
+          "task_component": {
+            "node_idx": 0,
+            "api_inputs": null,
+            "state": "completed",
+            "error_message": null
+          },
+          "state": "completed",
+          "error_message": null
+        },
+        {
+          "node_idx": 2,
+          "custom_code": {
+            "inputs": [
+              {
+                "name": "search_results",
+                "jsonschema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "link": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "snippet": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "description": "Array of search results for each gift idea"
+                },
+                "example": [
+                  [
+                    {
+                      "link": "https://example.com/yoga-mat",
+                      "title": "Best Yoga Mat",
+                      "snippet": "This is the best yoga mat available."
+                    }
+                  ]
+                ]
+              }
+            ],
+            "outputs": [
+              {
+                "name": "gift_ideas",
+                "jsonschema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "gift_idea": {
+                        "type": "string",
+                        "description": "The suggested gift idea."
+                      },
+                      "purchase_link": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "The link to where the gift can be purchased."
+                      }
+                    }
+                  },
+                  "description": "A list of gift ideas and their corresponding purchase links."
+                },
+                "example": [
+                  {
+                    "gift_idea": "A book about yoga and meditation",
+                    "purchase_link": "https://www.amazon.com/yoga-meditation-book"
+                  }
+                ]
+              }
+            ],
+            "function_name": "prepare_output",
+            "thinking_process": "1. We have been given an array of search results as input. Each element in this array is an array of search results for a specific gift idea. \n2. We'll assume that the first element of each array of search results is the most relevant to our gift idea, so we'll extract the `link` property from this first element. This link is where the gift can be purchased.\n3. We'll also extract the `title` property from the first element of each array of search results. This title represents the suggested gift idea.\n4. We'll create a new dictionary for each gift idea, with the keys `gift_idea` and `purchase_link`, and their values as the extracted title and link respectively.\n5. We'll append each dictionary to a new array. This array will be the output of our function.\n6. Our function will return a dictionary with the key `gift_ideas` and its value as the newly created array.\n\nNow, let's write the python function to implement this step.",
+            "code": [
+              "\n\ndef prepare_output(inputs):\n    # Get the search results input\n    search_results = inputs['search_results']\n\n    # Initialize an empty list for the gift ideas\n    gift_ideas = []\n\n    # Go through each array of search results\n    for results in search_results:\n        # Get the first result\n        first_result = results[0]\n\n        # Extract the title and link\n        title = first_result['title']\n        link = first_result['link']\n\n        # Create a dictionary with the gift idea and purchase link\n        gift_idea = {\"gift_idea\": title, \"purchase_link\": link}\n\n        # Add the dictionary to the list of gift ideas\n        gift_ideas.append(gift_idea)\n\n    # Prepare the output dictionary\n    outputs = {\"gift_ideas\": gift_ideas}\n\n    return outputs\n\n"
+            ]
+          },
+          "state": "completed",
+          "error_message": null,
+          "messages": []
+        }
+      ],
+      "state": "completed",
+      "error_message": null,
+      "messages": []
+    }
+  ],
+  "error_message": null,
+  "retries_state": {
+    "workflow_dag": [
+      1,
+      2
+    ],
+    "workflow_description": 1
+  },
+  "apis": []
+}
