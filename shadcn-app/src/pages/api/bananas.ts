@@ -20,7 +20,7 @@ type ExecutionData = {
 
 // Helper function to parse JSON files
 const parseJsonFile = (filePath: string) => {
-    fs.readFileSync(path.join(process.cwd(),'../s3data/executions/executions2'))
+    //fs.readFileSync(path.join(process.cwd(),'../s3data/executions/executions2'))
   try {
     return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
   } catch (error) {
