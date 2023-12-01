@@ -65,8 +65,8 @@ const processExecutions = (executionPath: string) => {
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   // Adjust the relative path according to your project structure
-  const executionPath1 = path.join(process.cwd(), '../s3data/executions/executions1');
-  const executionPath = path.join(process.cwd(), '../s3data/executions/executions2');
+  //const executionPath1 = path.join(process.cwd(), '../s3data/executions/executions1');
+  const executionPath = path.join(process.cwd(), '../s3data');
   
   const executions = processExecutions(executionPath);
 
