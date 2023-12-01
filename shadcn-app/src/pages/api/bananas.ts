@@ -20,7 +20,7 @@ type ExecutionData = {
 
 // Helper function to parse JSON files
 const parseJsonFile = (filePath: string) => {
-    fs.readFileSync(path.join(process.cwd(),'../s3data/executions2/executions2'))
+    fs.readFileSync(path.join(process.cwd(),'../s3data/executions/executions2'))
   try {
     return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
   } catch (error) {
@@ -65,7 +65,7 @@ const processExecutions = (executionPath: string) => {
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   // Adjust the relative path according to your project structure
-  const executionPath = path.join(process.cwd(), '../s3data/executions2/executions2');
+  const executionPath = path.join(process.cwd(), '../s3data/executions/executions2');
   const executions = processExecutions(executionPath);
 
   res.status(200).json(executions);
